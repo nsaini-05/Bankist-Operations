@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  background-color: #f3f3f3;
+}
+
+.logo-img {
+  margin-bottom: 6rem;
+}
+
+.login-card {
+  width: 30rem;
+  text-align: center;
+}
+.field-input {
+  width: 100%;
+  border: none;
+  padding: 1.3rem 5rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+form input:nth-child(2) {
+  margin-bottom: 4rem;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  font-size: 1.6rem;
+  padding: 1.3rem;
+  background-color: #66c873;
+  transition: 0.5s all ease-in;
+}
+
+.btn:hover {
+  background-color: #52a05c;
+  cursor: pointer;
+}
