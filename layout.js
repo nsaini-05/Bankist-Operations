@@ -34,6 +34,9 @@ const accounts = [account1, account2, account3, account4];
 /* DOM ELEMENTS */
 const transactionsSection = document.querySelector(".transactions");
 const balanceAmount = document.querySelector(".balance-amount");
+const depositTotalCard = document.querySelector(".deposit-total-card");
+const withdrawTotalCard = document.querySelector(".withdraw-total-card");
+const interestTotalCard = document.querySelector(".interest-total-card");
 
 /* GET USERNAMES */
 const computeUserNames = (accounts) => {
@@ -65,12 +68,33 @@ const displayTransactions = (transactions) => {
 };
 displayTransactions(transactions);
 
+/* DISPLAY SUMMARY */
+const displaySummary = (transactions) => {
+  const depositTotal = transactions
+    .filter((transaction) => transaction > 0)
+    .reduce((acc, curr, index) => acc + curr, 0);
+  depositTotalCard.textContent = `${depositTotal}$`;
+
+  const withdrawTotal = transactions
+    .filter((transaction) => transaction < 0)
+    .reduce((acc, curr, index) => acc + curr, 0);
+  withdrawTotalCard.textContent = `${Math.abs(withdrawTotal)}$`;
+
+  const interestTotal = transactions
+    .filter((transaction) => transaction > 0)
+    .map((transaction, i, array) => (transaction * 1.2) / 100)
+    .filter((interest) => interest > 1)
+    .reduce((acc, int, index, array) => acc + int, 0);
+  interestTotalCard.textContent = `${interestTotal}$`;
+};
+displaySummary(transactions);
+
 /* GET DEPOSITS */
 const deposits = transactions.filter((transaction) => transaction > 0);
 
 /* GET DEPOSITS */
 const withDraws = transactions.filter((transaction) => transaction < 0);
-console.log(withDraws);
+
 /* DISPLAY BALANCE */
 const displayBalance = (transactions) => {
   const balance = transactions.reduce((acc, cur) => acc + cur, 0);
@@ -94,5 +118,3 @@ const getAvgWithDraw = (withDraws) => {
   }, 0);
   return Math.abs(avgWithDraw).toFixed(2);
 };
-
-console.log(getAvgWithDraw(withDraws));
