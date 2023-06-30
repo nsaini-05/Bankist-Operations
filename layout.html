@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bankist</title>
+    <link rel="stylesheet" href="./general.css" />
     <link rel="stylesheet" href="./layout.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,18 +16,32 @@
     />
   </head>
   <body>
-    <header>
-      <div class="grid-item">
-        <div class="grid-item"><img src="./logo.png" class="logo" /></div>
-        <h2 class="greet">Bankist</h2>
+    <header class="flex-space">
+      <div class="flex-center gap1">
+        <div><img src="./logo.png" class="logo" /></div>
+        <h2 class="header-text">Bankist</h2>
       </div>
-      <div class="grid-item">
-        <h2 class="greet">Good Afternoon, Jonas!</h2>
+      <div class="flex-center gap1">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="user-icon"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+        </svg>
+        <h2 class="header-text">Jonas!</h2>
       </div>
     </header>
     <main>
-      <div class="balance">
-        <div class="text">
+      <div class="balance-information flex-space">
+        <div>
           <h2 class="secondary-heading">Current Balance</h2>
           <p class="date">As of 29/06/2023, 18:32</p>
         </div>
@@ -45,7 +61,7 @@
           <h3 class="card-amount">3000&nbsp;$</h3>
         </div>
       </div>
-      <div class="table-navigator">
+      <div class="table-navigator flex-space">
         <h3 class="card-amount">Transaction</h3>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +69,7 @@
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="currentColor"
-          class="sort-arrow"
+          class="sort-icon"
         >
           <path
             stroke-linecap="round"
@@ -64,43 +80,45 @@
       </div>
       <div class="transactions">
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag deposit-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag withdraw-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag deposit-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag withdraw-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag withdraw-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag withdraw-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
 
         <div class="transaction-record">
-          <p class="transaction-date">12/03/2020</p>
+          <p class="date">12/03/2020</p>
           <p class="tag withdraw-tag">8 Deposit</p>
           <p class="transaction-amount">30&nbsp;$</p>
         </div>
       </div>
-      <footer></footer>
+      <footer>
+        <a href="/" class="logout-btn"> &larr;&nbsp;Logout</a>
+      </footer>
     </main>
   </body>
 </html>

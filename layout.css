@@ -1,17 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
 body {
   font-family: "Poppins", sans-serif;
-  align-items: center;
-  justify-content: center;
   color: #444;
   background-color: #f3f3f3;
   overflow: hidden;
@@ -19,18 +7,10 @@ body {
 }
 
 header {
-  padding: 0 2rem;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  padding: 0 3.2rem;
 }
 
-.grid-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.greet {
+.header-text {
   font-size: 2.4rem;
 }
 
@@ -38,27 +18,21 @@ header {
   height: 5.25rem;
 }
 
+.user-icon {
+  width: 3.4rem;
+  height: 3.4rem;
+}
+
+/*Main Section*/
+
 main {
   max-width: 100rem;
-  margin: 4rem auto;
+  margin: 6.4rem auto;
   padding: 0 3.2rem;
 }
 
-.balance {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.balance-information {
   margin-bottom: 4.8rem;
-}
-
-.balance-amount {
-  font-size: 4.5rem;
-  letter-spacing: 1px;
-}
-
-.currency-symbol {
-  display: inline-block;
-  margin-left: 0.5rem;
 }
 
 .secondary-heading {
@@ -70,12 +44,16 @@ main {
   color: #444;
 }
 
+.balance-amount {
+  font-size: 3.6rem;
+  letter-spacing: 1px;
+}
+/* Analysis Section */
 .analysis {
-  display: flex;
-  gap: 3.2rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 8rem;
+  gap: 3.2rem;
+  margin-bottom: 2rem;
 }
 
 .card {
@@ -102,6 +80,17 @@ main {
   border-bottom: 5px solid #e52a5a;
 }
 
+/*Transactions*/
+
+.table-navigator {
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.sort-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+}
 .transactions {
   background-color: #f9f9f9;
   max-height: 40rem;
@@ -109,20 +98,7 @@ main {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  margin-bottom: 2rem;
-}
-
-.table-navigator {
-  margin-bottom: 1.2rem;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sort-arrow {
-  width: 2.4rem;
-  height: 2.4rem;
+  margin-bottom: 1.6rem;
 }
 
 .transaction-record {
@@ -131,10 +107,6 @@ main {
   display: flex;
   align-items: center;
   gap: 1.8rem;
-}
-
-.transaction-date {
-  font-size: 1.2rem;
 }
 
 .tag {
@@ -160,17 +132,57 @@ main {
   font-weight: 600;
 }
 
+/*Footer*/
+
 footer {
   text-align: center;
 }
 
-@media screen and (max-width: 600px) {
-  /* CSS rules for screens with a maximum width of 600px */
-  html {
-    font-size: 42.5%;
+.logout-btn:link,
+.logout-btn:visited {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background-color: #dbdbdb;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.6rem;
+  border-radius: 10px;
+  letter-spacing: 1px;
+  color: inherit;
+}
+
+.logout-btn:active,
+.logout-btn:hover {
+  background-color: #aaaaaa;
+}
+
+@media (max-width: 70rem) {
+  header {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .user-icon {
+    display: none;
   }
 }
 
+@media (max-width: 62.5rem) {
+  html {
+    font-size: 56.25%;
+  }
+}
+
+@media (max-width: 55rem) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media (max-width: 37rem) {
+  header {
+    color: pink;
+  }
+}
 /* 
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
