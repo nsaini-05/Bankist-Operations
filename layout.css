@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  background-color: #f3f3f3;
+  overflow: hidden;
+  padding: 2rem 0;
+}
+
+header {
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.greet {
+  font-size: 2.4rem;
+}
+
+.logo {
+  height: 5.25rem;
+}
+
+main {
+  max-width: 100rem;
+  margin: 4rem auto;
+  padding: 0 3.2rem;
+}
+
+.balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4.8rem;
+}
+
+.balance-amount {
+  font-size: 4.5rem;
+  letter-spacing: 1px;
+}
+
+.currency-symbol {
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+.secondary-heading {
+  font-size: 2.4rem;
+}
+
+.date {
+  font-size: 1.4rem;
+  color: #444;
+}
+
+.analysis {
+  display: flex;
+  gap: 3.2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 8rem;
+}
+
+.card {
+  padding: 1.6rem;
+  border-radius: 10px;
+  background-color: #dbdbdb;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+}
+
+.card-amount {
+  font-size: 2.4rem;
+}
+
+.card-positive {
+  border-top: 5px solid #66c873;
+}
+.card-negative {
+  border-bottom: 5px solid #e52a5a;
+}
+
+.transactions {
+  background-color: #f9f9f9;
+  max-height: 40rem;
+  overflow-y: overlay;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.table-navigator {
+  margin-bottom: 1.2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sort-arrow {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+.transaction-record {
+  padding: 2.5rem 4.8rem;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.transaction-date {
+  font-size: 1.2rem;
+}
+
+.tag {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  border-radius: 100px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.deposit-tag {
+  background-color: #66c873;
+}
+.withdraw-tag {
+  background-color: #e52a5a;
+}
+
+.transaction-amount {
+  font-size: 1.7rem;
+  margin-left: auto;
+  font-weight: 600;
+}
+
+footer {
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  /* CSS rules for screens with a maximum width of 600px */
+  html {
+    font-size: 42.5%;
+  }
+}
+
+/* 
+SPACING SYSTEM (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE SYSTEM (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98 */
