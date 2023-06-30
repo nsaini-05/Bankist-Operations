@@ -2,12 +2,12 @@ body {
   font-family: "Poppins", sans-serif;
   color: #444;
   background-color: #f3f3f3;
-  overflow: hidden;
-  padding: 2rem 0;
+  height: 100vh;
+  padding: 2rem;
 }
 
 header {
-  padding: 0 3.2rem;
+  padding: 0rem 3.2rem;
 }
 
 .header-text {
@@ -53,7 +53,7 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3.2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.4rem;
 }
 
 .card {
@@ -83,7 +83,7 @@ main {
 /*Transactions*/
 
 .table-navigator {
-  margin-bottom: 1.2rem;
+  margin-bottom: 2.4rem;
   text-align: center;
 }
 
@@ -94,7 +94,7 @@ main {
 .transactions {
   background-color: #f9f9f9;
   max-height: 40rem;
-  overflow-y: overlay;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -149,6 +149,7 @@ footer {
   border-radius: 10px;
   letter-spacing: 1px;
   color: inherit;
+  margin-bottom: 1.2rem;
 }
 
 .logout-btn:active,
@@ -156,33 +157,31 @@ footer {
   background-color: #aaaaaa;
 }
 
-@media (max-width: 70rem) {
-  header {
-    flex-direction: column;
-    gap: 2rem;
+@media (max-width: 75em) {
+  html {
+    font-size: 56.25%;
   }
-  .user-icon {
+  .analysis {
+    grid-template-columns: 1fr;
+    padding: 0 4.8rem;
+  }
+  .card {
+    text-align: center;
+  }
+}
+
+@media (max-width: 59em) {
+  html {
+    font-size: 50%;
+  }
+  .balance-information {
+    flex-direction: column;
+  }
+  .balance-information .date {
     display: none;
   }
 }
 
-@media (max-width: 62.5rem) {
-  html {
-    font-size: 56.25%;
-  }
-}
-
-@media (max-width: 55rem) {
-  html {
-    font-size: 50%;
-  }
-}
-
-@media (max-width: 37rem) {
-  header {
-    color: pink;
-  }
-}
 /* 
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
