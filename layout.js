@@ -48,7 +48,6 @@ const computeUserNames = (accounts) => {
 computeUserNames(accounts);
 
 /* DISPLAY TRANSACTIONS */
-
 const transactions = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const displayTransactions = (transactions) => {
   transactionsSection.innerHTML = "";
@@ -64,7 +63,6 @@ const displayTransactions = (transactions) => {
     transactionsSection.insertAdjacentHTML("afterbegin", htmlElement);
   });
 };
-
 displayTransactions(transactions);
 
 /* GET DEPOSITS */
@@ -72,7 +70,7 @@ const deposits = transactions.filter((transaction) => transaction > 0);
 
 /* GET DEPOSITS */
 const withDraws = transactions.filter((transaction) => transaction < 0);
-
+console.log(withDraws);
 /* DISPLAY BALANCE */
 const displayBalance = (transactions) => {
   const balance = transactions.reduce((acc, cur) => acc + cur, 0);
@@ -81,13 +79,20 @@ const displayBalance = (transactions) => {
 displayBalance(transactions);
 
 /* CALCULATE MAXIMUM TRANSACTION AMOUNT */
-
 const computeMaximumTransaction = (transactions) => {
   const maxValue = transactions.reduce(
     (acc, curr) => (acc = curr < acc ? acc : curr),
     0
   );
-  console.log(maxValue);
+};
+computeMaximumTransaction(transactions);
+
+/* CALCULATE AVERAGE TRANSACTION AMOUNT */
+const getAvgWithDraw = (withDraws) => {
+  const avgWithDraw = withDraws.reduce((acc, cur, i, array) => {
+    return acc + cur / array.length;
+  }, 0);
+  return Math.abs(avgWithDraw).toFixed(2);
 };
 
-computeMaximumTransaction(transactions);
+console.log(getAvgWithDraw(withDraws));
