@@ -73,19 +73,19 @@ const displaySummary = (transactions) => {
   const depositTotal = transactions
     .filter((transaction) => transaction > 0)
     .reduce((acc, curr, index) => acc + curr, 0);
-  depositTotalCard.textContent = `${depositTotal}$`;
+  depositTotalCard.textContent = `${depositTotal} $`;
 
   const withdrawTotal = transactions
     .filter((transaction) => transaction < 0)
     .reduce((acc, curr, index) => acc + curr, 0);
-  withdrawTotalCard.textContent = `${Math.abs(withdrawTotal)}$`;
+  withdrawTotalCard.textContent = `${Math.abs(withdrawTotal)} $`;
 
   const interestTotal = transactions
     .filter((transaction) => transaction > 0)
     .map((transaction, i, array) => (transaction * 1.2) / 100)
     .filter((interest) => interest > 1)
     .reduce((acc, int, index, array) => acc + int, 0);
-  interestTotalCard.textContent = `${interestTotal}$`;
+  interestTotalCard.textContent = `${interestTotal} $`;
 };
 displaySummary(transactions);
 
