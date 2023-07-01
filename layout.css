@@ -27,7 +27,7 @@ header {
 
 main {
   max-width: 100rem;
-  margin: 6.4rem auto;
+  margin: 5.2rem auto;
   padding: 0 3.2rem;
 }
 
@@ -37,6 +37,7 @@ main {
 
 .secondary-heading {
   font-size: 2.4rem;
+  font-weight: 400;
 }
 
 .date {
@@ -45,8 +46,9 @@ main {
 }
 
 .balance-amount {
-  font-size: 3.6rem;
-  letter-spacing: 1px;
+  font-size: 4.4rem;
+  letter-spacing: 0.75px;
+  font-weight: 400;
 }
 /* Analysis Section */
 .analysis {
@@ -71,6 +73,7 @@ main {
 
 .card-amount {
   font-size: 2.4rem;
+  font-weight: 400;
 }
 
 .card-positive {

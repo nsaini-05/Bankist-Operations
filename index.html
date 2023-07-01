@@ -20,19 +20,22 @@
       <div class="login-card">
         <img src="./logo.png" class="logo-img" />
         <h1 class="heading">Bankist</h1>
-        <input
-          type="text"
-          class="field-input"
-          placeholder="Username"
-          required
-        />
-        <input
-          type="password"
-          class="field-input extra-margin"
-          placeholder="Password"
-          required
-        />
-        <button class="btn">Login</button>
+        <form class="login-form">
+          <input
+            type="text"
+            class="field-input username"
+            placeholder="Username"
+            required
+          />
+          <input
+            type="password"
+            class="field-input extra-margin password"
+            placeholder="Password"
+            required
+          />
+          <button class="btn">Login</button>
+        </form>
+        <p class="error"></p>
       </div>
     </div>
     <script src="./index.js" />

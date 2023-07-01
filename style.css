@@ -45,3 +45,12 @@ form input:nth-child(2) {
   background-color: #52a05c;
   cursor: pointer;
 }
+
+.login-form {
+  margin-bottom: 2rem;
+}
+
+.error {
+  font-size: 1.6rem;
+  color: #e52a5a;
+}
