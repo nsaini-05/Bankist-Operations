@@ -185,6 +185,25 @@ footer {
   }
 }
 
+@media (max-width: 25rem) {
+  html {
+    font-size: 45%;
+  }
+
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .transaction-record {
+    flex-direction: column;
+    align-items: center;
+  }
+  .transaction-amount {
+    margin-left: 0;
+  }
+}
+
 /* 
 SPACING SYSTEM (px)
 2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
