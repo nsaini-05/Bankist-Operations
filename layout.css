@@ -8,6 +8,7 @@ body {
 
 header {
   padding: 0rem 3.2rem;
+  margin-bottom: 5.2rem;
 }
 
 .header-text {
@@ -26,9 +27,12 @@ header {
 /*Main Section*/
 
 main {
-  max-width: 100rem;
-  margin: 5.2rem auto;
+  margin: 0 auto;
   padding: 0 3.2rem;
+  display: grid;
+  grid-template-columns: 4fr 1.5fr;
+  gap: 9.6rem;
+  max-width: 140rem;
 }
 
 .balance-information {
@@ -50,6 +54,58 @@ main {
   letter-spacing: 0.75px;
   font-weight: 400;
 }
+
+.operations-container {
+  align-self: center;
+}
+
+.operations-data {
+  display: flex;
+  flex-direction: column;
+  padding: 3.2rem 0;
+  gap: 1.6rem;
+  background-color: #f4f4f4;
+  margin-bottom: 3.2rem;
+}
+
+.actions-container {
+  align-items: center;
+}
+
+.btn {
+  width: 100%;
+  border: none;
+  font-size: 1.6rem;
+  padding: 1.3rem;
+  transition: 0.5s all ease-in;
+  background-color: #f3f3f3;
+  font-family: inherit;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.stat {
+  width: 100%;
+  border: none;
+  font-size: 1.6rem;
+  padding: 1.3rem;
+  transition: 0.5s all ease-in;
+  background-color: #dbdbdb;
+}
+
+.btn-transfer {
+  background-color: #ffcb03;
+}
+.btn-close {
+  background-color: #e52a5a;
+}
+
+.btn-request {
+  background-color: #66c873;
+}
+
 /* Analysis Section */
 .analysis {
   display: grid;
@@ -137,10 +193,6 @@ main {
 
 /*Footer*/
 
-footer {
-  text-align: center;
-}
-
 .logout-btn:link,
 .logout-btn:visited {
   display: inline-block;
@@ -160,16 +212,83 @@ footer {
   background-color: #aaaaaa;
 }
 
+/* Dialog */
+.overlay-container {
+  position: absolute;
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.dialog-container {
+  width: 35rem;
+  padding: 2.4rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  text-align: center;
+  transition: visibility 0s, opacity 0.5s linear;
+  z-index: 99999;
+}
+
+.transfer-dialog {
+  background-image: linear-gradient(to top left, #ffb003, #ffcb03);
+}
+
+.request-dialog {
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
+}
+
+.close-dialog {
+  background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.field-input {
+  width: 100%;
+  border: none;
+  padding: 1.3rem 5rem;
+  font-size: 1.4rem;
+  font-family: inherit;
+  text-align: center;
+  margin-bottom: 2rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  outline: none;
+}
+
+form input:nth-child(2) {
+  margin-bottom: 4rem;
+}
+
+.cls-btn {
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cls-btn:hover {
+  background-color: #e7f5ff;
+}
+
+.dialog-heading {
+  font-size: 2rem;
+}
+
 @media (max-width: 75em) {
   html {
     font-size: 56.25%;
-  }
-  .analysis {
-    grid-template-columns: 1fr;
-    padding: 0 4.8rem;
-  }
-  .card {
-    text-align: center;
   }
 }
 
@@ -183,6 +302,27 @@ footer {
   .balance-information .date {
     display: none;
   }
+  .analysis {
+    grid-template-columns: 1fr;
+    padding: 0 4.8rem;
+  }
+  .card {
+    text-align: center;
+  }
+  main {
+    grid-template-columns: 1fr;
+  }
+  .operations-container {
+    justify-self: center;
+    width: 50%;
+  }
+}
+
+@media (max-width: 40em) {
+  header {
+    flex-direction: column;
+    gap: 4.8rem;
+  }
 }
 
 @media (max-width: 25rem) {
@@ -190,9 +330,10 @@ footer {
     font-size: 45%;
   }
 
-  header {
+  .actions-container {
     flex-direction: column;
-    gap: 10px;
+    gap: 3.2rem;
+    order: 3;
   }
 
   .transaction-record {
@@ -202,6 +343,19 @@ footer {
   .transaction-amount {
     margin-left: 0;
   }
+  .stat {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.hide {
+  display: none;
 }
 
 /* 

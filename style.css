@@ -39,6 +39,7 @@ form input:nth-child(2) {
   padding: 1.3rem;
   background-color: #66c873;
   transition: 0.5s all ease-in;
+  display: block;
 }
 
 .btn:hover {

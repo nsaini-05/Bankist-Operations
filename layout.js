@@ -7,6 +7,17 @@ const withdrawTotalCard = document.querySelector(".withdraw-total-card");
 const interestTotalCard = document.querySelector(".interest-total-card");
 const currentUserLabel = document.querySelector(".username-label");
 const logOutButton = document.querySelector(".logout-btn");
+const avgWithdraw = document.querySelector(".avg-withdraw");
+const avgDeposit = document.querySelector(".avg-deposit");
+const maxWithDraw = document.querySelector(".max-withdraw");
+const transferButton = document.querySelector(".btn-transfer");
+const transferDialog = document.querySelector(".transfer-dialog");
+const overlayContainer = document.querySelector(".overlay-container");
+const requestButton = document.querySelector(".btn-request");
+const requestDialog = document.querySelector(".request-dialog");
+const closeAccountButton = document.querySelector(".btn-close");
+const closeDialog = document.querySelector(".close-dialog");
+const closeDialogButton = document.querySelectorAll(".cls-btn");
 let currentUser;
 
 const getloggedInUser = () => {
@@ -125,25 +136,60 @@ const loadInitialData = () => {
 
 loadInitialData();
 
-// /* GET DEPOSITS */
-// const deposits = transactions.filter((transaction) => transaction > 0);
+const calculateStats = () => {
+  const avgWithdrawl = currentUser?.transactions
+    .filter((transaction) => transaction < 0)
+    .reduce((acc, curr, index, array) => {
+      return acc + curr / array.length;
+    }, 0)
+    .toFixed(2);
+  avgWithdraw.textContent = Math.abs(avgWithdrawl) + " $";
 
-// /* GET DEPOSITS */
-// const withDraws = transactions.filter((transaction) => transaction < 0);
+  const avgDepositAmount = currentUser?.transactions
+    .filter((transaction) => transaction > 0)
+    .reduce((acc, curr, index, array) => {
+      return acc + curr / array.length;
+    }, 0)
+    .toFixed(2);
+  avgDeposit.textContent = Math.abs(avgDepositAmount) + " $";
 
-// /* CALCULATE MAXIMUM TRANSACTION AMOUNT */
-// const computeMaximumTransaction = (transactions) => {
-//   const maxValue = transactions.reduce(
-//     (acc, curr) => (acc = curr < acc ? acc : curr),
-//     0
-//   );
-// };
-// computeMaximumTransaction(transactions);
+  const maxWithDrawl = currentUser?.transactions
+    .filter((transaction) => transaction < 0)
+    .reduce((acc, curr) => {
+      return curr < acc ? curr : acc;
+    }, 0)
+    .toFixed(2);
+  maxWithDraw.textContent = Math.abs(maxWithDrawl) + "$";
+};
 
-// /* CALCULATE AVERAGE TRANSACTION AMOUNT */
-// const getAvgWithDraw = (withDraws) => {
-//   const avgWithDraw = withDraws.reduce((acc, cur, i, array) => {
-//     return acc + cur / array.length;
-//   }, 0);
-//   return Math.abs(avgWithDraw).toFixed(2);
-// };
+calculateStats();
+
+transferButton.addEventListener("click", () => {
+  overlayContainer.classList.toggle("hide");
+  transferDialog.classList.remove("hide");
+});
+
+requestButton.addEventListener("click", () => {
+  overlayContainer.classList.toggle("hide");
+  requestDialog.classList.remove("hide");
+});
+
+closeAccountButton.addEventListener("click", () => {
+  overlayContainer.classList.toggle("hide");
+  closeDialog.classList.remove("hide");
+});
+
+closeDialogButton.forEach((button) =>
+  button.addEventListener("click", () => {
+    if (!closeDialog.classList.contains("hide")) {
+      closeDialog.classList.add("hide");
+    }
+    if (!transferDialog.classList.contains("hide")) {
+      transferDialog.classList.add("hide");
+    }
+    if (!requestDialog.classList.contains("hide")) {
+      requestDialog.classList.add("hide");
+    }
+    overlayContainer.classList.toggle("hide");
+  })
+);
