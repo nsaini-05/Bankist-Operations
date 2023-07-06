@@ -2,8 +2,8 @@ body {
   font-family: "Poppins", sans-serif;
   color: #444;
   background-color: #f3f3f3;
-  height: 100vh;
   padding: 2rem;
+  position: relative;
 }
 
 header {
@@ -215,7 +215,7 @@ main {
 /* Dialog */
 .overlay-container {
   position: absolute;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   top: 0;
   backdrop-filter: blur(3px);
@@ -314,7 +314,7 @@ form input:nth-child(2) {
   }
   .operations-container {
     justify-self: center;
-    width: 50%;
+    width: 70%;
   }
 }
 
