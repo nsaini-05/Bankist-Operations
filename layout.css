@@ -55,14 +55,49 @@ main {
   font-weight: 400;
 }
 
+/* Analysis Section */
+.analysis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.2rem;
+  margin-bottom: 2.4rem;
+}
+
+.card {
+  padding: 1.6rem;
+  border-radius: 10px;
+  background-color: #dbdbdb;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.75px;
+}
+
+.card-amount {
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+
+.card-positive {
+  border-top: 5px solid #66c873;
+}
+.card-negative {
+  border-bottom: 5px solid #e52a5a;
+}
+
+/* Operations */
 .operations-container {
-  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .operations-data {
   display: flex;
   flex-direction: column;
-  padding: 3.2rem 0;
   gap: 1.6rem;
   background-color: #f4f4f4;
   margin-bottom: 3.2rem;
@@ -104,39 +139,6 @@ main {
 
 .btn-request {
   background-color: #66c873;
-}
-
-/* Analysis Section */
-.analysis {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3.2rem;
-  margin-bottom: 2.4rem;
-}
-
-.card {
-  padding: 1.6rem;
-  border-radius: 10px;
-  background-color: #dbdbdb;
-}
-
-.card-title {
-  font-size: 1.6rem;
-  margin-bottom: 0.4rem;
-  text-transform: uppercase;
-  letter-spacing: 0.75px;
-}
-
-.card-amount {
-  font-size: 2.4rem;
-  font-weight: 400;
-}
-
-.card-positive {
-  border-top: 5px solid #66c873;
-}
-.card-negative {
-  border-bottom: 5px solid #e52a5a;
 }
 
 /*Transactions*/
@@ -191,8 +193,6 @@ main {
   font-weight: 600;
 }
 
-/*Footer*/
-
 .logout-btn:link,
 .logout-btn:visited {
   display: inline-block;
@@ -204,12 +204,15 @@ main {
   border-radius: 10px;
   letter-spacing: 1px;
   color: inherit;
-  margin-bottom: 1.2rem;
 }
 
 .logout-btn:active,
 .logout-btn:hover {
   background-color: #aaaaaa;
+}
+
+.logout-timer {
+  text-align: right;
 }
 
 /* Dialog */
@@ -252,10 +255,10 @@ main {
 .field-input {
   width: 100%;
   border: none;
-  padding: 1.3rem 5rem;
+  padding: 1.3rem 1rem;
   font-size: 1.4rem;
   font-family: inherit;
-  text-align: center;
+  text-align: left;
   margin-bottom: 2rem;
   background-color: rgba(255, 255, 255, 0.4);
   outline: none;
@@ -286,6 +289,16 @@ form input:nth-child(2) {
   font-size: 2rem;
 }
 
+.hide {
+  display: none;
+}
+
+.error {
+  font-size: 1.6rem;
+  color: #e52a5a;
+}
+
+/* MEDIA QUERIES */
 @media (max-width: 75em) {
   html {
     font-size: 56.25%;
@@ -330,12 +343,6 @@ form input:nth-child(2) {
     font-size: 45%;
   }
 
-  .actions-container {
-    flex-direction: column;
-    gap: 3.2rem;
-    order: 3;
-  }
-
   .transaction-record {
     flex-direction: column;
     align-items: center;
@@ -351,10 +358,6 @@ form input:nth-child(2) {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  display: none;
-}
-
-.hide {
   display: none;
 }
 
