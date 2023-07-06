@@ -46,7 +46,7 @@
             <h2 class="secondary-heading">Current Balance</h2>
             <p class="date">As of 29/06/2023, 18:32</p>
           </div>
-          <h1 class="balance-amount">25952,59&nbsp;$</h1>
+          <h1 class="balance-amount" id="number">25952,59&nbsp;$</h1>
         </div>
         <div class="analysis">
           <div class="card card-positive">
@@ -83,11 +83,6 @@
       </section>
       <section class="operations-container">
         <div class="operations-data">
-          <button class="btn btn-transfer">Transfer Money</button>
-          <button class="btn btn-request">Request Loan</button>
-          <button class="btn btn-close">Close Account</button>
-        </div>
-        <div class="operations-data">
           <div class="flex-space stat">
             <h5 class="stats-heading">Average Withdraw</h5>
             <h5 class="stats-data avg-withdraw">15$</h5>
@@ -101,6 +96,11 @@
             <h5 class="stats-data avg-deposit">15$</h5>
           </div>
         </div>
+        <div class="operations-data">
+          <button class="btn btn-transfer">Transfer Money</button>
+          <button class="btn btn-request">Request Loan</button>
+          <button class="btn btn-close">Close Account</button>
+        </div>
         <div class="operations-data actions-container">
           <div>
             <a href="/" class="logout-btn"> &larr;&nbsp;Logout</a>
@@ -113,7 +113,7 @@
     <div class="dialog-container transfer-dialog hide">
       <div class="flex-space dialog-btn-container">
         <h2 class="dialog-heading">Transfer Money</h2>
-        <button class="cls-btn">
+        <button class="cls-btn btn-transfer-dialog">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -130,21 +130,23 @@
           </svg>
         </button>
       </div>
-      <form class="login-form" action="/">
+      <form class="login-form transfer-form" action="/">
         <input
           type="text"
-          class="field-input username"
+          class="field-input transfer-username"
           placeholder="Transfer To"
           required
         />
         <input
           type="number"
-          class="field-input extra-margin password"
+          min="1"
+          class="field-input extra-margin transfer-amount"
           placeholder="Amount"
           required
         />
         <button class="btn">Transfer Money</button>
       </form>
+      <p class="error">&nbsp;</p>
     </div>
     <!-- REQUEST DIALOG -->
     <div class="dialog-container request-dialog hide">

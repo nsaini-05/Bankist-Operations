@@ -18,6 +18,13 @@ const requestDialog = document.querySelector(".request-dialog");
 const closeAccountButton = document.querySelector(".btn-close");
 const closeDialog = document.querySelector(".close-dialog");
 const closeDialogButton = document.querySelectorAll(".cls-btn");
+const errorMessage = document.querySelectorAll(".error");
+/*Action  buttons */
+const transferDialogButton = document.querySelector(".btn-transfer-dialog");
+const transferUserNameField = document.querySelector(".transfer-username");
+const transferAmountField = document.querySelector(".transfer-amount");
+const transferForm = document.querySelector(".transfer-form");
+
 let currentUser;
 
 const getloggedInUser = () => {
@@ -123,18 +130,9 @@ const displaySummary = (transactions) => {
 /* DISPLAY BALANCE */
 const displayBalance = (transactions) => {
   const balance = transactions.reduce((acc, cur) => acc + cur, 0);
+  currentUser.currentBalance = balance.toFixed(2);
   balanceAmount.innerHTML = balance.toFixed(2) + "&nbsp$";
 };
-
-const loadInitialData = () => {
-  const { owner: userName, transactions } = currentUser;
-  displayTransactions(transactions);
-  displaySummary(transactions);
-  displayBalance(transactions);
-  currentUserLabel.textContent = userName.split(" ")[0];
-};
-
-loadInitialData();
 
 const calculateStats = () => {
   const avgWithdrawl = currentUser?.transactions
@@ -162,34 +160,101 @@ const calculateStats = () => {
   maxWithDraw.textContent = Math.abs(maxWithDrawl) + "$";
 };
 
-calculateStats();
+const loadInitialData = () => {
+  const { owner: userName, transactions } = currentUser;
+  displayTransactions(transactions);
+  displaySummary(transactions);
+  displayBalance(transactions);
+  currentUserLabel.textContent = userName.split(" ")[0];
+  calculateStats();
+};
+
+loadInitialData();
+
+/*Trigger Operations Button */
+
+const hideOverlayContainer = () => {
+  overlayContainer.classList.toggle("hide");
+};
 
 transferButton.addEventListener("click", () => {
-  overlayContainer.classList.toggle("hide");
+  hideOverlayContainer();
   transferDialog.classList.remove("hide");
 });
 
 requestButton.addEventListener("click", () => {
-  overlayContainer.classList.toggle("hide");
+  hideOverlayContainer();
   requestDialog.classList.remove("hide");
 });
 
 closeAccountButton.addEventListener("click", () => {
-  overlayContainer.classList.toggle("hide");
+  hideOverlayContainer();
   closeDialog.classList.remove("hide");
 });
 
+const closeDialogFunction = () => {
+  if (!closeDialog.classList.contains("hide")) {
+    closeDialog.classList.add("hide");
+  }
+  if (!transferDialog.classList.contains("hide")) {
+    transferDialog.classList.add("hide");
+  }
+  if (!requestDialog.classList.contains("hide")) {
+    requestDialog.classList.add("hide");
+  }
+  overlayContainer.classList.toggle("hide");
+};
+
 closeDialogButton.forEach((button) =>
   button.addEventListener("click", () => {
-    if (!closeDialog.classList.contains("hide")) {
-      closeDialog.classList.add("hide");
-    }
-    if (!transferDialog.classList.contains("hide")) {
-      transferDialog.classList.add("hide");
-    }
-    if (!requestDialog.classList.contains("hide")) {
-      requestDialog.classList.add("hide");
-    }
-    overlayContainer.classList.toggle("hide");
+    closeDialogFunction();
   })
 );
+
+const displayError = (message, type) => {
+  let selected;
+  switch (type) {
+    case "transfer":
+      selected = errorMessage[0];
+      break;
+    case "request":
+      selected = errorMessage[0];
+      break;
+    case "close":
+      selected = errorMessage[3];
+      break;
+  }
+  selected.textContent = message;
+  setTimeout(() => (selected.innerHTML = "&nbsp;"), 1000);
+};
+
+const resetTransferForm = () => {
+  transferUserNameField.value = "";
+  transferAmountField.value = "";
+};
+
+/*Transfer Operations */
+const initiateTransfer = () => {
+  const recieverNameInput = transferUserNameField.value;
+  const transferAmount = Number(transferAmountField.value);
+  const reciever = accounts.find((acc) => acc.userName === recieverNameInput);
+  if (reciever) {
+    if (transferAmount < currentUser.currentBalance) {
+      currentUser.transactions.push(transferAmount * -1);
+      reciever.transactions.push(transferAmount);
+      resetTransferForm();
+      closeDialogFunction();
+      loadInitialData();
+    } else {
+      displayError("Insufficient Balance", "transfer");
+    }
+  } else {
+    reciever.userName !== currentUser.userName
+      ? displayError("No Such User Found", "transfer")
+      : displayError("Sender and Reciever Cannot be same", "transfer");
+  }
+};
+transferForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  initiateTransfer();
+});
