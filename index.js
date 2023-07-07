@@ -40,7 +40,13 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
+const accounts = JSON.parse(localStorage.getItem("accounts")) || [
+  account1,
+  account2,
+  account3,
+  account4,
+];
+console.log(accounts);
 /* GET USERNAMES */
 const computeUserNames = (accounts) => {
   for (const account of accounts) {
@@ -52,6 +58,7 @@ const computeUserNames = (accounts) => {
   }
 };
 computeUserNames(accounts);
+
 /* DISPLAY ERROR */
 
 const displayError = (message) => {
@@ -67,8 +74,9 @@ const userLogin = (userName, password) => {
     if (password !== userFound.pin) {
       displayError("Invalid Username or Password");
     } else {
-      userFound["pin"] = "****";
+      //userFound["pin"] = "****";
       localStorage.setItem("loggedInUser", JSON.stringify(userFound));
+      localStorage.setItem("accounts", JSON.stringify(accounts));
       window.location.href = "/layout.html";
     }
   } else {

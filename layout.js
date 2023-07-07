@@ -25,18 +25,10 @@ const transferUserNameField = document.querySelector(".transfer-username");
 const transferAmountField = document.querySelector(".transfer-amount");
 const transferForm = document.querySelector(".transfer-form");
 
+const closeDialogUserName = document.querySelector(".closeUsername");
+const closeDiaologPassword = document.querySelector(".closePassword");
+const closeForm = document.querySelector(".close-form");
 let currentUser;
-
-const getloggedInUser = () => {
-  const loggedInUser = localStorage.getItem("loggedInUser");
-  if (loggedInUser) {
-    currentUser = JSON.parse(loggedInUser);
-  } else {
-    window.location.href = "/";
-  }
-};
-
-getloggedInUser();
 
 /* LOGOUT USER FUNCTION */
 const logOutUser = () => {
@@ -47,36 +39,36 @@ const logOutUser = () => {
 logOutButton.addEventListener("click", logOutUser);
 
 /* Data */
-const account1 = {
-  owner: "Jonas Schmedtmann",
-  transactions: [200, 450, -400, 3000, -650, -130, 70, 1300],
-  interestRate: 1.2, // %
-  pin: 1111,
-};
+// const account1 = {
+//   owner: "Jonas Schmedtmann",
+//   transactions: [200, 450, -400, 3000, -650, -130, 70, 1300],
+//   interestRate: 1.2, // %
+//   pin: 1111,
+// };
 
-const account2 = {
-  owner: "Jessica Davis",
-  transactions: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-  interestRate: 1.5,
-  pin: 2222,
-};
+// const account2 = {
+//   owner: "Jessica Davis",
+//   transactions: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+//   interestRate: 1.5,
+//   pin: 2222,
+// };
 
-const account3 = {
-  owner: "Steven Thomas Williams",
-  transactions: [200, -200, 340, -300, -20, 50, 400, -460],
-  interestRate: 0.7,
-  pin: 3333,
-};
+// const account3 = {
+//   owner: "Steven Thomas Williams",
+//   transactions: [200, -200, 340, -300, -20, 50, 400, -460],
+//   interestRate: 0.7,
+//   pin: 3333,
+// };
 
-const account4 = {
-  owner: "Sarah Smith",
-  transactions: [430, 1000, 700, 50, 90],
-  interestRate: 1,
-  pin: 4444,
-};
+// const account4 = {
+//   owner: "Sarah Smith",
+//   transactions: [430, 1000, 700, 50, 90],
+//   interestRate: 1,
+//   pin: 4444,
+// };
 
-const accounts = [account1, account2, account3, account4];
-
+// const accounts = [account1, account2, account3, account4];
+let accounts = [];
 /* GET USERNAMES */
 const computeUserNames = (accounts) => {
   for (const account of accounts) {
@@ -88,6 +80,21 @@ const computeUserNames = (accounts) => {
   }
 };
 computeUserNames(accounts);
+
+const getloggedInUser = () => {
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  accounts = JSON.parse(localStorage.getItem("accounts"));
+  if (loggedInUser) {
+    currentUser = JSON.parse(loggedInUser);
+    const currentUser1 = accounts.find(
+      (acc) => acc.userName === currentUser.userName
+    );
+  } else {
+    window.location.href = "/";
+  }
+};
+
+getloggedInUser();
 
 /* DISPLAY TRANSACTIONS */
 const displayTransactions = (transactions) => {
@@ -218,10 +225,10 @@ const displayError = (message, type) => {
       selected = errorMessage[0];
       break;
     case "request":
-      selected = errorMessage[0];
+      selected = errorMessage[1];
       break;
     case "close":
-      selected = errorMessage[3];
+      selected = errorMessage[2];
       break;
   }
   selected.textContent = message;
@@ -233,15 +240,21 @@ const resetTransferForm = () => {
   transferAmountField.value = "";
 };
 
+const resetCloseForm = () => {
+  closeDialogUserName.value = "";
+  closeDiaologPassword.value = "";
+};
+
 /*Transfer Operations */
 const initiateTransfer = () => {
   const recieverNameInput = transferUserNameField.value;
   const transferAmount = Number(transferAmountField.value);
   const reciever = accounts.find((acc) => acc.userName === recieverNameInput);
-  if (reciever) {
+  if (reciever && reciever.userName !== currentUser.userName) {
     if (transferAmount < currentUser.currentBalance) {
       currentUser.transactions.push(transferAmount * -1);
       reciever.transactions.push(transferAmount);
+      updateLocalStoreAccounts(accounts);
       resetTransferForm();
       closeDialogFunction();
       loadInitialData();
@@ -249,12 +262,36 @@ const initiateTransfer = () => {
       displayError("Insufficient Balance", "transfer");
     }
   } else {
-    reciever.userName !== currentUser.userName
-      ? displayError("No Such User Found", "transfer")
-      : displayError("Sender and Reciever Cannot be same", "transfer");
+    reciever && reciever.userName === currentUser.userName
+      ? displayError("Sender and Reciever Cannot be same", "transfer")
+      : displayError("No Such User Found", "transfer");
   }
 };
 transferForm.addEventListener("submit", (e) => {
   e.preventDefault();
   initiateTransfer();
 });
+
+const initiateAccountClosure = () => {
+  const userName = closeDialogUserName.value;
+  const userPassword = Number(closeDiaologPassword.value);
+  if (userName === currentUser.userName && userPassword === currentUser.pin) {
+    const indexofCurrent = accounts.findIndex(
+      (acc) => acc.userName === currentUser.userName
+    );
+    accounts.splice(indexofCurrent, 1);
+    updateLocalStoreAccounts(accounts);
+    logOutUser();
+  } else {
+    displayError("Invalid Credentials", "close");
+  }
+};
+
+closeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  initiateAccountClosure();
+});
+
+const updateLocalStoreAccounts = (accounts) => {
+  localStorage.setItem("accounts", JSON.stringify(accounts));
+};
