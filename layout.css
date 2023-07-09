@@ -299,9 +299,6 @@ form input:nth-child(2) {
 
 /* MEDIA QUERIES */
 @media (max-width: 75em) {
-  html {
-    font-size: 56.25%;
-  }
 }
 
 @media (max-width: 59em) {
@@ -326,7 +323,18 @@ form input:nth-child(2) {
   }
   .operations-container {
     justify-self: center;
-    width: 70%;
+    width: 100%;
+  }
+  .operations-data {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 47em) {
+  .operations-data {
+    flex-direction: column;
+    justify-content: center;
   }
 }
 

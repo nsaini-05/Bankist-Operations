@@ -46,7 +46,6 @@ const accounts = JSON.parse(localStorage.getItem("accounts")) || [
   account3,
   account4,
 ];
-console.log(accounts);
 /* GET USERNAMES */
 const computeUserNames = (accounts) => {
   for (const account of accounts) {

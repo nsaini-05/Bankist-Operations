@@ -28,6 +28,9 @@ const transferForm = document.querySelector(".transfer-form");
 const closeDialogUserName = document.querySelector(".closeUsername");
 const closeDiaologPassword = document.querySelector(".closePassword");
 const closeForm = document.querySelector(".close-form");
+
+const requestAmountField = document.querySelector(".request-amount");
+const requestMoneyForm = document.querySelector(".request-form");
 let currentUser;
 
 /* LOGOUT USER FUNCTION */
@@ -81,37 +84,6 @@ const computeUserNames = (accounts) => {
 };
 computeUserNames(accounts);
 
-const getloggedInUser = () => {
-  const loggedInUser = localStorage.getItem("loggedInUser");
-  accounts = JSON.parse(localStorage.getItem("accounts"));
-  if (loggedInUser) {
-    currentUser = JSON.parse(loggedInUser);
-    const currentUser1 = accounts.find(
-      (acc) => acc.userName === currentUser.userName
-    );
-  } else {
-    window.location.href = "/";
-  }
-};
-
-getloggedInUser();
-
-/* DISPLAY TRANSACTIONS */
-const displayTransactions = (transactions) => {
-  transactionsSection.innerHTML = "";
-  transactions.forEach((transaction, index) => {
-    const transactionType = transaction < 0 ? "Withdraw" : "Deposit";
-    const htmlElement = `<div class="transaction-record">
-        <p class="date">12/03/2020</p>
-        <p class="tag ${transactionType}-tag">${
-      index + 1
-    } ${transactionType}</p>
-        <p class="transaction-amount">${transaction.toFixed(2)}&nbsp;$</p>
-      </div>`;
-    transactionsSection.insertAdjacentHTML("afterbegin", htmlElement);
-  });
-};
-
 /* DISPLAY SUMMARY */
 const displaySummary = (transactions) => {
   const depositTotal = transactions
@@ -134,6 +106,22 @@ const displaySummary = (transactions) => {
   interestTotalCard.textContent = `${interestTotal.toFixed(2)} $`;
 };
 
+/* DISPLAY TRANSACTIONS */
+const displayTransactions = (transactions) => {
+  transactionsSection.innerHTML = "";
+  transactions.forEach((transaction, index) => {
+    const transactionType = transaction < 0 ? "Withdraw" : "Deposit";
+    const htmlElement = `<div class="transaction-record">
+        <p class="date">12/03/2020</p>
+        <p class="tag ${transactionType}-tag">${
+      index + 1
+    } ${transactionType}</p>
+        <p class="transaction-amount">${transaction.toFixed(2)}&nbsp;$</p>
+      </div>`;
+    transactionsSection.insertAdjacentHTML("afterbegin", htmlElement);
+  });
+};
+
 /* DISPLAY BALANCE */
 const displayBalance = (transactions) => {
   const balance = transactions.reduce((acc, cur) => acc + cur, 0);
@@ -141,8 +129,8 @@ const displayBalance = (transactions) => {
   balanceAmount.innerHTML = balance.toFixed(2) + "&nbsp$";
 };
 
-const calculateStats = () => {
-  const avgWithdrawl = currentUser?.transactions
+const calculateStats = (transactions) => {
+  const avgWithdrawl = transactions
     .filter((transaction) => transaction < 0)
     .reduce((acc, curr, index, array) => {
       return acc + curr / array.length;
@@ -167,16 +155,30 @@ const calculateStats = () => {
   maxWithDraw.textContent = Math.abs(maxWithDrawl) + "$";
 };
 
-const loadInitialData = () => {
+const loadInitialData = (currentUser) => {
   const { owner: userName, transactions } = currentUser;
   displayTransactions(transactions);
   displaySummary(transactions);
   displayBalance(transactions);
   currentUserLabel.textContent = userName.split(" ")[0];
-  calculateStats();
+  calculateStats(transactions);
 };
 
-loadInitialData();
+const getloggedInUser = () => {
+  const loggedInUser = localStorage.getItem("loggedInUser");
+  accounts = JSON.parse(localStorage.getItem("accounts"));
+  if (loggedInUser) {
+    currentUser = JSON.parse(loggedInUser);
+    const currentUser1 = accounts.find(
+      (acc) => acc.userName === currentUser.userName
+    );
+    loadInitialData(currentUser);
+  } else {
+    window.location.href = "/";
+  }
+};
+
+getloggedInUser();
 
 /*Trigger Operations Button */
 
@@ -255,9 +257,10 @@ const initiateTransfer = () => {
       currentUser.transactions.push(transferAmount * -1);
       reciever.transactions.push(transferAmount);
       updateLocalStoreAccounts(accounts);
+      updateloggedInUser(currentUser);
       resetTransferForm();
       closeDialogFunction();
-      loadInitialData();
+      loadInitialData(currentUser);
     } else {
       displayError("Insufficient Balance", "transfer");
     }
@@ -292,6 +295,38 @@ closeForm.addEventListener("submit", (e) => {
   initiateAccountClosure();
 });
 
+/*Deposit */
+const initiateDeposit = (amount) => {
+  const isEligible = currentUser.transactions.some(
+    (transaction) => transaction > 0.1 * amount
+  );
+  if (isEligible) {
+    setTimeout(() => {
+      currentUser.transactions.push(amount);
+      updateloggedInUser(JSON.stringify(currentUser));
+      loadInitialData(currentUser);
+    }, 2000);
+    closeDialogFunction();
+  } else {
+    displayError("Do Not Qualify for Request", "request");
+  }
+};
+requestMoneyForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const requestAmount = Number(requestAmountField.value);
+  initiateDeposit(requestAmount);
+});
+
 const updateLocalStoreAccounts = (accounts) => {
+  const findCurrentUserIndex = accounts.findIndex(
+    (account) => account.userName === currentUser.userName
+  );
+  if (findCurrentUserIndex) {
+    accounts[findCurrentUserIndex] = currentUser;
+  }
   localStorage.setItem("accounts", JSON.stringify(accounts));
+};
+
+const updateloggedInUser = (currentUser) => {
+  localStorage.setItem("loggedInUser", JSON.stringify(currentUser));
 };
