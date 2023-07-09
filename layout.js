@@ -303,7 +303,8 @@ const initiateDeposit = (amount) => {
   if (isEligible) {
     setTimeout(() => {
       currentUser.transactions.push(amount);
-      updateloggedInUser(JSON.stringify(currentUser));
+      updateloggedInUser(currentUser);
+      updateLocalStoreAccounts(accounts);
       loadInitialData(currentUser);
     }, 2000);
     closeDialogFunction();
