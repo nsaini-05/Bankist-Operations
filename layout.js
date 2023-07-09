@@ -321,7 +321,7 @@ const updateLocalStoreAccounts = (accounts) => {
   const findCurrentUserIndex = accounts.findIndex(
     (account) => account.userName === currentUser.userName
   );
-  if (findCurrentUserIndex) {
+  if (findCurrentUserIndex !== -1) {
     accounts[findCurrentUserIndex] = currentUser;
   }
   localStorage.setItem("accounts", JSON.stringify(accounts));
