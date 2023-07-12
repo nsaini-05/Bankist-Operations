@@ -152,6 +152,10 @@ main {
   width: 2.4rem;
   height: 2.4rem;
 }
+
+.sort-icon:hover {
+  cursor: pointer;
+}
 .transactions {
   background-color: #f9f9f9;
   max-height: 40rem;

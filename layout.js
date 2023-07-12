@@ -31,6 +31,9 @@ const closeForm = document.querySelector(".close-form");
 
 const requestAmountField = document.querySelector(".request-amount");
 const requestMoneyForm = document.querySelector(".request-form");
+const sortIcon = document.querySelector(".sort-icon");
+
+let isSorted = false;
 let currentUser;
 
 /* LOGOUT USER FUNCTION */
@@ -107,9 +110,10 @@ const displaySummary = (transactions) => {
 };
 
 /* DISPLAY TRANSACTIONS */
-const displayTransactions = (transactions) => {
+const displayTransactions = (transactions, sort = false) => {
+  const movs = sort ? transactions.slice().sort((a, b) => a - b) : transactions;
   transactionsSection.innerHTML = "";
-  transactions.forEach((transaction, index) => {
+  movs.forEach((transaction, index) => {
     const transactionType = transaction < 0 ? "Withdraw" : "Deposit";
     const htmlElement = `<div class="transaction-record">
         <p class="date">12/03/2020</p>
@@ -157,7 +161,7 @@ const calculateStats = (transactions) => {
 
 const loadInitialData = (currentUser) => {
   const { owner: userName, transactions } = currentUser;
-  displayTransactions(transactions);
+  displayTransactions(transactions, false);
   displaySummary(transactions);
   displayBalance(transactions);
   currentUserLabel.textContent = userName.split(" ")[0];
@@ -331,3 +335,23 @@ const updateLocalStoreAccounts = (accounts) => {
 const updateloggedInUser = (currentUser) => {
   localStorage.setItem("loggedInUser", JSON.stringify(currentUser));
 };
+
+//Practice Methods
+const allAccountTransactions = accounts
+  .map((account) => account.transactions)
+  .flat();
+const overallBalance = allAccountTransactions.reduce((acc, curr) => acc + curr);
+
+sortIcon.addEventListener("click", () => {
+  if (isSorted === false) {
+    displayTransactions(currentUser.transactions, true);
+    isSorted = true;
+  } else {
+    displayTransactions(currentUser.transactions, false);
+    isSorted = false;
+  }
+});
+
+const totalCashAvaiable = accounts.flatMap((account) => account.transactions);
+
+console.log(totalCashAvaiable);
