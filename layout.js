@@ -36,6 +36,8 @@ const sortIcon = document.querySelector(".sort-icon");
 let isSorted = false;
 let currentUser;
 
+const currentDate = document.querySelector(".date");
+
 /* LOGOUT USER FUNCTION */
 const logOutUser = () => {
   localStorage.removeItem("loggedInUser");
@@ -75,17 +77,6 @@ logOutButton.addEventListener("click", logOutUser);
 
 // const accounts = [account1, account2, account3, account4];
 let accounts = [];
-/* GET USERNAMES */
-const computeUserNames = (accounts) => {
-  for (const account of accounts) {
-    account.userName = account.owner
-      .toLowerCase()
-      .split(" ")
-      .map((str) => str[0])
-      .join("");
-  }
-};
-computeUserNames(accounts);
 
 /* DISPLAY SUMMARY */
 const displaySummary = (transactions) => {
@@ -166,6 +157,14 @@ const loadInitialData = (currentUser) => {
   displayBalance(transactions);
   currentUserLabel.textContent = userName.split(" ")[0];
   calculateStats(transactions);
+  setCurrentDate();
+};
+
+const setCurrentDate = () => {
+  const now = new Date();
+  currentDate.textContent = `${now.getFullYear()} / ${(now.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")} / ${now.getDate().toString().padStart(2, "0")}`;
 };
 
 const getloggedInUser = () => {
@@ -353,5 +352,3 @@ sortIcon.addEventListener("click", () => {
 });
 
 const totalCashAvaiable = accounts.flatMap((account) => account.transactions);
-
-console.log(totalCashAvaiable);

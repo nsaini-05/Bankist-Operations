@@ -313,7 +313,7 @@ form input:nth-child(2) {
     flex-direction: column;
   }
   .balance-information .date {
-    display: none;
+    text-align: center;
   }
   .analysis {
     grid-template-columns: 1fr;
