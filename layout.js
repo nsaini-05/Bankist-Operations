@@ -32,11 +32,10 @@ const closeForm = document.querySelector(".close-form");
 const requestAmountField = document.querySelector(".request-amount");
 const requestMoneyForm = document.querySelector(".request-form");
 const sortIcon = document.querySelector(".sort-icon");
-
 let isSorted = false;
 let currentUser;
-
 const currentDate = document.querySelector(".date");
+let accounts = [];
 
 /* LOGOUT USER FUNCTION */
 const logOutUser = () => {
@@ -46,49 +45,25 @@ const logOutUser = () => {
 
 logOutButton.addEventListener("click", logOutUser);
 
-/* Data */
-// const account1 = {
-//   owner: "Jonas Schmedtmann",
-//   transactions: [200, 450, -400, 3000, -650, -130, 70, 1300],
-//   interestRate: 1.2, // %
-//   pin: 1111,
-// };
-
-// const account2 = {
-//   owner: "Jessica Davis",
-//   transactions: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-//   interestRate: 1.5,
-//   pin: 2222,
-// };
-
-// const account3 = {
-//   owner: "Steven Thomas Williams",
-//   transactions: [200, -200, 340, -300, -20, 50, 400, -460],
-//   interestRate: 0.7,
-//   pin: 3333,
-// };
-
-// const account4 = {
-//   owner: "Sarah Smith",
-//   transactions: [430, 1000, 700, 50, 90],
-//   interestRate: 1,
-//   pin: 4444,
-// };
-
-// const accounts = [account1, account2, account3, account4];
-let accounts = [];
-
 /* DISPLAY SUMMARY */
 const displaySummary = (transactions) => {
   const depositTotal = transactions
     .filter((transaction) => transaction > 0)
     .reduce((bal, curr, index) => bal + curr, 0);
-  depositTotalCard.textContent = `${depositTotal.toFixed(2)} $`;
+  depositTotalCard.textContent = `${formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    depositTotal.toFixed(2)
+  )}`;
 
   const withdrawTotal = transactions
     .filter((transaction) => transaction < 0)
     .reduce((acc, curr, index) => acc + curr, 0);
-  withdrawTotalCard.textContent = `${Math.abs(withdrawTotal).toFixed(2)} $`;
+  withdrawTotalCard.textContent = `${formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    Math.abs(withdrawTotal).toFixed(2)
+  )}`;
 
   const interestTotal = transactions
     .filter((transaction) => transaction > 0)
@@ -97,21 +72,36 @@ const displaySummary = (transactions) => {
     )
     .filter((interest) => interest > 1)
     .reduce((acc, int, index, array) => acc + int, 0);
-  interestTotalCard.textContent = `${interestTotal.toFixed(2)} $`;
+  interestTotalCard.textContent = `${formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    interestTotal.toFixed(2)
+  )}`;
 };
 
 /* DISPLAY TRANSACTIONS */
-const displayTransactions = (transactions, sort = false) => {
-  const movs = sort ? transactions.slice().sort((a, b) => a - b) : transactions;
+const displayTransactions = (currentUser, sort = false) => {
+  const movs = sort
+    ? currentUser.transactions.slice().sort((a, b) => a - b)
+    : currentUser.transactions;
+  const movsdate = sort
+    ? currentUser.movementsDates
+        .slice()
+        .sort((a, b) => Number(new Date(b)) - Number(new Date(a)))
+    : currentUser.movementsDates;
   transactionsSection.innerHTML = "";
   movs.forEach((transaction, index) => {
     const transactionType = transaction < 0 ? "Withdraw" : "Deposit";
     const htmlElement = `<div class="transaction-record">
-        <p class="date">12/03/2020</p>
+        <p class="date">${formattingDate(movsdate[index])}</p>
         <p class="tag ${transactionType}-tag">${
       index + 1
     } ${transactionType}</p>
-        <p class="transaction-amount">${transaction.toFixed(2)}&nbsp;$</p>
+        <p class="transaction-amount">${formatCurrency(
+          currentUser.currency,
+          currentUser.locale,
+          transaction.toFixed(2)
+        )}</p>
       </div>`;
     transactionsSection.insertAdjacentHTML("afterbegin", htmlElement);
   });
@@ -121,9 +111,14 @@ const displayTransactions = (transactions, sort = false) => {
 const displayBalance = (transactions) => {
   const balance = transactions.reduce((acc, cur) => acc + cur, 0);
   currentUser.currentBalance = balance.toFixed(2);
-  balanceAmount.innerHTML = balance.toFixed(2) + "&nbsp$";
+  balanceAmount.innerHTML = formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    balance.toFixed(2)
+  );
 };
 
+/* CALCULATE  STATISTICS */
 const calculateStats = (transactions) => {
   const avgWithdrawl = transactions
     .filter((transaction) => transaction < 0)
@@ -131,7 +126,11 @@ const calculateStats = (transactions) => {
       return acc + curr / array.length;
     }, 0)
     .toFixed(2);
-  avgWithdraw.textContent = Math.abs(avgWithdrawl) + " $";
+  avgWithdraw.textContent = formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    Math.abs(avgWithdrawl)
+  );
 
   const avgDepositAmount = currentUser?.transactions
     .filter((transaction) => transaction > 0)
@@ -139,20 +138,28 @@ const calculateStats = (transactions) => {
       return acc + curr / array.length;
     }, 0)
     .toFixed(2);
-  avgDeposit.textContent = Math.abs(avgDepositAmount) + " $";
-
+  avgDeposit.textContent = formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    Math.abs(avgDepositAmount)
+  );
   const maxWithDrawl = currentUser?.transactions
     .filter((transaction) => transaction < 0)
     .reduce((acc, curr) => {
       return curr < acc ? curr : acc;
     }, 0)
     .toFixed(2);
-  maxWithDraw.textContent = Math.abs(maxWithDrawl) + "$";
+  maxWithDraw.textContent = formatCurrency(
+    currentUser.currency,
+    currentUser.locale,
+    Math.abs(maxWithDrawl)
+  );
 };
 
+/* LOAD INITIAL DATA */
 const loadInitialData = (currentUser) => {
   const { owner: userName, transactions } = currentUser;
-  displayTransactions(transactions, false);
+  displayTransactions(currentUser, false);
   displaySummary(transactions);
   displayBalance(transactions);
   currentUserLabel.textContent = userName.split(" ")[0];
@@ -160,21 +167,28 @@ const loadInitialData = (currentUser) => {
   setCurrentDate();
 };
 
+/* SET CURRENT DATE */
 const setCurrentDate = () => {
   const now = new Date();
-  currentDate.textContent = `${now.getFullYear()} / ${(now.getMonth() + 1)
-    .toString()
-    .padStart(2, "0")} / ${now.getDate().toString().padStart(2, "0")}`;
+  const locale = currentUser.locale;
+  const options = {
+    hour: "numeric",
+    minute: "numeric",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    weekday: "long",
+  };
+  const standardDate = new Intl.DateTimeFormat(locale, options).format(now);
+  currentDate.textContent = standardDate;
 };
 
+/* DISPLAY BALANCE */
 const getloggedInUser = () => {
   const loggedInUser = localStorage.getItem("loggedInUser");
   accounts = JSON.parse(localStorage.getItem("accounts"));
   if (loggedInUser) {
     currentUser = JSON.parse(loggedInUser);
-    const currentUser1 = accounts.find(
-      (acc) => acc.userName === currentUser.userName
-    );
     loadInitialData(currentUser);
   } else {
     window.location.href = "/";
@@ -184,7 +198,6 @@ const getloggedInUser = () => {
 getloggedInUser();
 
 /*Trigger Operations Button */
-
 const hideOverlayContainer = () => {
   overlayContainer.classList.toggle("hide");
 };
@@ -204,6 +217,7 @@ closeAccountButton.addEventListener("click", () => {
   closeDialog.classList.remove("hide");
 });
 
+/* CLOSE  DIALOG */
 const closeDialogFunction = () => {
   if (!closeDialog.classList.contains("hide")) {
     closeDialog.classList.add("hide");
@@ -223,6 +237,7 @@ closeDialogButton.forEach((button) =>
   })
 );
 
+/* DISPLAY ERROR FUNCTION */
 const displayError = (message, type) => {
   let selected;
   switch (type) {
@@ -259,6 +274,8 @@ const initiateTransfer = () => {
     if (transferAmount < currentUser.currentBalance) {
       currentUser.transactions.push(transferAmount * -1);
       reciever.transactions.push(transferAmount);
+      currentUser.movementsDates.push(new Date().toISOString());
+      reciever.movementsDates.push(new Date().toISOString());
       updateLocalStoreAccounts(accounts);
       updateloggedInUser(currentUser);
       resetTransferForm();
@@ -278,6 +295,7 @@ transferForm.addEventListener("submit", (e) => {
   initiateTransfer();
 });
 
+/* ACCOUNT CLOSURE */
 const initiateAccountClosure = () => {
   const userName = closeDialogUserName.value;
   const userPassword = Number(closeDiaologPassword.value);
@@ -298,7 +316,7 @@ closeForm.addEventListener("submit", (e) => {
   initiateAccountClosure();
 });
 
-/*Deposit */
+/* DEPOSIT OPERATION  */
 const initiateDeposit = (amount) => {
   const isEligible = currentUser.transactions.some(
     (transaction) => transaction > 0.1 * amount
@@ -306,6 +324,7 @@ const initiateDeposit = (amount) => {
   if (isEligible) {
     setTimeout(() => {
       currentUser.transactions.push(amount);
+      currentUser.movementsDates.push(new Date());
       updateloggedInUser(currentUser);
       updateLocalStoreAccounts(accounts);
       loadInitialData(currentUser);
@@ -321,6 +340,7 @@ requestMoneyForm.addEventListener("submit", (e) => {
   initiateDeposit(requestAmount);
 });
 
+/* UPDATE STORAGE */
 const updateLocalStoreAccounts = (accounts) => {
   const findCurrentUserIndex = accounts.findIndex(
     (account) => account.userName === currentUser.userName
@@ -335,7 +355,7 @@ const updateloggedInUser = (currentUser) => {
   localStorage.setItem("loggedInUser", JSON.stringify(currentUser));
 };
 
-//Practice Methods
+/* EXTRA METHODS */
 const allAccountTransactions = accounts
   .map((account) => account.transactions)
   .flat();
@@ -343,12 +363,34 @@ const overallBalance = allAccountTransactions.reduce((acc, curr) => acc + curr);
 
 sortIcon.addEventListener("click", () => {
   if (isSorted === false) {
-    displayTransactions(currentUser.transactions, true);
+    displayTransactions(currentUser, true);
     isSorted = true;
   } else {
-    displayTransactions(currentUser.transactions, false);
+    displayTransactions(currentUser, false);
     isSorted = false;
   }
 });
 
 const totalCashAvaiable = accounts.flatMap((account) => account.transactions);
+
+/* FORMAT TIME */
+function formattingDate(inputDate) {
+  let dayPassed = Math.abs(new Date() - new Date(inputDate));
+  dayPassed = Math.round(dayPassed / (1000 * 3600 * 24));
+  if (dayPassed === 0) return "Today";
+  if (dayPassed === 1) return "Yesterday";
+  if (dayPassed <= 7) return `${dayPassed} days ago`;
+  else {
+    /* INTERNATIONAL CONVERSION TO TIME */
+    let date = new Date(inputDate);
+    return new Intl.DateTimeFormat(currentUser.locale).format(date);
+  }
+}
+
+/* FORMAT CURRENCY */
+function formatCurrency(currency, locale, amount) {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+  }).format(amount);
+}
