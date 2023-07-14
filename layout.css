@@ -312,6 +312,9 @@ form input:nth-child(2) {
   .balance-information {
     flex-direction: column;
   }
+  .secondary-heading {
+    text-align: center;
+  }
   .balance-information .date {
     text-align: center;
   }

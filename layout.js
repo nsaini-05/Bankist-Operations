@@ -35,7 +35,11 @@ const sortIcon = document.querySelector(".sort-icon");
 let isSorted = false;
 let currentUser;
 const currentDate = document.querySelector(".date");
+const mins = document.querySelector(".mins");
+const seconds = document.querySelector(".seconds");
+
 let accounts = [];
+let timer;
 
 /* LOGOUT USER FUNCTION */
 const logOutUser = () => {
@@ -190,6 +194,7 @@ const getloggedInUser = () => {
   if (loggedInUser) {
     currentUser = JSON.parse(loggedInUser);
     loadInitialData(currentUser);
+    startLogoutTimer();
   } else {
     window.location.href = "/";
   }
@@ -281,6 +286,7 @@ const initiateTransfer = () => {
       resetTransferForm();
       closeDialogFunction();
       loadInitialData(currentUser);
+      resetTimer();
     } else {
       displayError("Insufficient Balance", "transfer");
     }
@@ -330,6 +336,7 @@ const initiateDeposit = (amount) => {
       loadInitialData(currentUser);
     }, 2000);
     closeDialogFunction();
+    resetTimer();
   } else {
     displayError("Do Not Qualify for Request", "request");
   }
@@ -393,4 +400,33 @@ function formatCurrency(currency, locale, amount) {
     style: "currency",
     currency,
   }).format(amount);
+}
+
+/* LOGOUT  TIMER */
+function startLogoutTimer() {
+  let timerSeconds = 300;
+  const tick = () => {
+    if (timerSeconds <= 0) {
+      clearInterval(timer);
+      logOutUser();
+    }
+    const [minutes, secondsElapse] = [
+      Math.trunc(timerSeconds / 60)
+        .toString()
+        .padStart(2, "0"),
+      Math.trunc(timerSeconds % 60)
+        .toString()
+        .padStart(2, "0"),
+    ];
+    mins.textContent = minutes;
+    seconds.textContent = secondsElapse;
+    timerSeconds = timerSeconds - 1;
+  };
+  tick();
+  timer = setInterval(tick, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  startLogoutTimer();
 }
