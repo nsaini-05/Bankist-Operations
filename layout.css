@@ -1,7 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
   color: #444;
-  background-color: #f3f3f3;
   padding: 2rem;
   position: relative;
 }
@@ -65,7 +64,6 @@ main {
 
 .card {
   padding: 1.6rem;
-  border-radius: 10px;
   background-color: #dbdbdb;
 }
 
@@ -99,7 +97,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
-  background-color: #f4f4f4;
   margin-bottom: 3.2rem;
 }
 
@@ -205,7 +202,6 @@ main {
   text-transform: uppercase;
   text-decoration: none;
   font-size: 1.6rem;
-  border-radius: 10px;
   letter-spacing: 1px;
   color: inherit;
 }
