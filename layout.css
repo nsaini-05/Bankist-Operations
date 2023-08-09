@@ -64,7 +64,8 @@ main {
 
 .card {
   padding: 1.6rem;
-  background-color: #dbdbdb;
+  background-color: #e6e6e6;
+  border-radius: 10px;
 }
 
 .card-title {
@@ -112,6 +113,7 @@ main {
   transition: 0.5s all ease-in;
   background-color: #f3f3f3;
   font-family: inherit;
+  border-radius: 10px;
 }
 
 .btn:hover {
@@ -124,7 +126,8 @@ main {
   font-size: 1.6rem;
   padding: 1.3rem;
   transition: 0.5s all ease-in;
-  background-color: #dbdbdb;
+  background-color: #e6e6e6;
+  border-radius: 10px;
 }
 
 .btn-transfer {
@@ -204,6 +207,7 @@ main {
   font-size: 1.6rem;
   letter-spacing: 1px;
   color: inherit;
+  border-radius: 10px;
 }
 
 .logout-btn:active,
